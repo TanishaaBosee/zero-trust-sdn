@@ -1,0 +1,51 @@
+{
+    "access_policies": [
+        {
+            "id": "POL-001",
+            "name": "Flow Table Read Access",
+            "description": "Allow reading flow table entries",
+            "conditions": {
+                "allowed_roles": ["admin", "network_operator", "monitoring_app"],
+                "min_trust_score": 0.5,
+                "allowed_actions": ["read"],
+                "resources": ["flow_table", "flow_stats"]
+            },
+            "effect": "allow",
+            "priority": 10
+        },
+        {
+            "id": "POL-002",
+            "name": "Flow Table Write Access",
+            "description": "Allow modifying flow table entries",
+            "conditions": {
+                "allowed_roles": ["admin", "network_operator"],
+                "min_trust_score": 0.7,
+                "allowed_actions": ["write", "delete"],
+                "resources": ["flow_table", "switch_config"]
+            },
+            "effect": "allow",
+            "priority": 20
+        },
+        {
+            "id": "POL-003",
+            "name": "Controller Configuration Access",
+            "description": "Allow configuring the controller",
+            "conditions": {
+                "allowed_roles": ["admin"],
+                "min_trust_score": 0.8,
+                "allowed_actions": ["configure"],
+                "resources": ["controller_config", "switch_config"]
+            },
+            "effect": "allow",
+            "priority": 30
+        },
+        {
+            "id": "POL-004",
+            "name": "Default Deny All",
+            "description": "Deny all requests that don't match any policy",
+            "conditions": {},
+            "effect": "deny",
+            "priority": 100
+        }
+    ]
+}

@@ -1,0 +1,66 @@
+{
+    "applications": [
+        {
+            "app_id": "legitimate_monitor",
+            "name": "Network Monitoring Application",
+            "role": "monitoring_app",
+            "api_key": "monitor_api_key_2024_secure",
+            "device_id": "device-001",
+            "device_fingerprint": "fp_monitor_device_001",
+            "trusted": true,
+            "allowed_actions": ["read"],
+            "allowed_resources": ["flow_stats", "flow_table"]
+        },
+        {
+            "app_id": "legitimate_admin",
+            "name": "Network Administration Application",
+            "role": "admin",
+            "api_key": "admin_api_key_2024_secure",
+            "device_id": "device-002",
+            "device_fingerprint": "fp_admin_device_002",
+            "trusted": true,
+            "allowed_actions": ["read", "write", "delete", "configure"],
+            "allowed_resources": ["flow_table", "switch_config", "controller_config"]
+        },
+        {
+            "app_id": "legitimate_operator",
+            "name": "Network Operator Application",
+            "role": "network_operator",
+            "api_key": "operator_api_key_2024_secure",
+            "device_id": "device-003",
+            "device_fingerprint": "fp_operator_device_003",
+            "trusted": true,
+            "allowed_actions": ["read", "write"],
+            "allowed_resources": ["flow_table", "flow_stats"]
+        }
+    ],
+    "malicious_apps": [
+        {
+            "app_id": "malicious_attacker",
+            "name": "Malicious Attacker",
+            "role": "guest_app",
+            "api_key": "malicious_key_2024",
+            "device_id": "device-mal-001",
+            "device_fingerprint": "fp_malicious_001",
+            "trusted": false
+        },
+        {
+            "app_id": "fake_app",
+            "name": "Fake Application",
+            "role": "guest_app",
+            "api_key": "fake_key_2024",
+            "device_id": "device-fake-001",
+            "device_fingerprint": "fp_fake_001",
+            "trusted": false
+        },
+        {
+            "app_id": "compromised_app",
+            "name": "Compromised Application",
+            "role": "monitoring_app",
+            "api_key": "compromised_key_2024",
+            "device_id": "device-comp-001",
+            "device_fingerprint": "fp_compromised_001",
+            "trusted": false
+        }
+    ]
+}

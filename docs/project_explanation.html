@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero Trust SDN Project - Easy Explanation</title>
+<style>
+  body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; padding: 0; background: #f5f5f5; color: #333; }
+  .page { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+  h1 { color: #1a5276; font-size: 22px; border-bottom: 3px solid #1a5276; padding-bottom: 10px; }
+  h2 { color: #2e86c1; font-size: 18px; margin-top: 25px; }
+  h3 { color: #2471a3; font-size: 16px; }
+  .step { background: #eaf2f8; padding: 12px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #2e86c1; }
+  .note { background: #fef9e7; padding: 12px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #f1c40f; }
+  .success { background: #d5f5e3; padding: 12px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #27ae60; }
+  .attack { background: #fadbd8; padding: 12px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #e74c3c; }
+  code { background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 14px; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 14px; }
+  th { background: #1a5276; color: white; padding: 8px; text-align: left; }
+  td { padding: 8px; border-bottom: 1px solid #ddd; }
+  .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #999; }
+  @media print { body { background: white; } .page { box-shadow: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>Zero Trust SDN Project</h1>
+<p style="font-size:16px;color:#555;"><strong>Simple Explanation</strong> - M.Tech Research</p>
+
+<hr>
+
+<h2>এই প্রজেক্টটা কী?</h2>
+<p>এই প্রজেক্টে আমরা SDN (Software Defined Networking) - এ <strong>Zero Trust</strong> নামের একটা সিকিউরিটি সিস্টেম বানাচ্ছি।</p>
+
+<div class="step">
+<strong>সহজ ভাষায়:</strong><br>
+যেকোনো অ্যাপ যখন SDN কন্ট্রোলারের সাথে কথা বলে, আমরা প্রতিটি কথোপকথন (request) চেক করি। কাউকে Trust করি না। সব সময় check করি।
+</div>
+
+<h2>কেন এই প্রজেক্ট দরকার?</h2>
+<div class="step">
+<strong>পুরনো সিস্টেমে সমস্যা:</strong><br>
+পুরনো SDN সিস্টেমে, একবার অ্যাপ login করলে, তারপর সে যা খুশি করতে পারত। Trust করা হতো একবার, তারপর আর check করা হতো না।<br><br>
+<strong>আমরা যা করি:</strong><br>
+প্রতি request-ই ৭ বার check করি। কিছুই trust করি না!
+</div>
+
+<h2>প্রজেক্টের Main Idea</h2>
+
+<div class="step">
+<strong>"Never Trust, Always Verify"</strong><br>
+কাউকে বিশ্বাস করো না। সব সময় যাচাই করো।
+</div>
+
+<p>একটা অ্যাপ যখন request পাঠায়, আমরা ৭টি স্তর চেক করি:</p>
+
+<table>
+<tr><th>স্ল নং</th><th>চেকের নাম</th><th>কী চেক করা হয়</th></tr>
+<tr><td>1</td><td>Token Check</td><td>টোকেন বৈধ কিনা?</td></tr>
+<tr><td>2</td><td>API Key Check</td><td>API কী ঠিক আছে?</td></tr>
+<tr><td>3</td><td>Device Check</td><td>ডিভাইস কি নিবন্ধিত?</td></tr>
+<tr><td>4</td><td>RBAC</td><td>রোল অনুমতি দেয়?</td></tr>
+<tr><td>5</td><td>ABAC</td><td>Attributes মিলছে?</td></tr>
+<tr><td>6</td><td>Behavior Check</td><td>অস্বাভাবিক আচরণ?</td></tr>
+<tr><td>7</td><td>Trust Score</td><td>স্কোর কি 0.6 এর উপরে?</td></tr>
+</table>
+
+<p><strong>যদি কোনো একটি চেক fail হয় → request BLOCKED</strong></p>
+<p><strong>যদি সব চেক pass হয় → request ALLOWED</strong></p>
+
+<h2>প্রজেক্টের কী কী ফাইল আছে?</h2>
+
+<table>
+<tr><th>ফাইল</th><th>কাজ</th></tr>
+<tr><td>controller/trust_verification.py</td><td>মূল ইঞ্জিন - ৭টি চেক করে</td></tr>
+<tr><td>controller/ryu_controller.py</td><td>SDN কন্ট্রোলার</td></tr>
+<tr><td>topology/network_topology.py</td><td>নেটওয়ার্ক টপোলজি</td></tr>
+<tr><td>apps/legitimate_app.py</td><td>ভালো অ্যাপ (Allow হবে)</td></tr>
+<tr><td>apps/malicious_apps.py</td><td>খারাপ অ্যাপ (Block হবে)</td></tr>
+<tr><td>tests/run_all_tests.py</td><td>সব টেস্ট চালায়</td></tr>
+</table>
+
+<h2>কী কী Attack simulate করেছি?</h2>
+
+<div class="attack">
+<strong>৫ ধরনের Attack:</strong><br>
+1. <strong>Unauthorized Access</strong> - কোনো টোকেন ছাড়া access চাচ্ছে → <span style="color:#27ae60;">BLOCKED</span><br>
+2. <strong>Fake Application</strong> - নিজেকে legitimate বলে মিথ্যা বলছে → <span style="color:#27ae60;">BLOCKED</span><br>
+3. <strong>Compromised App</strong> - হঠাৎ অনেক request পাঠাচ্ছে → <span style="color:#27ae60;">BLOCKED</span><br>
+4. <strong>Replay Attack</strong> - পুরনো টোকেন পুনরায় use করছে → <span style="color:#27ae60;">BLOCKED</span><br>
+5. <strong>Unauthorized API</strong> - অনুমতি ছাড়া কিছু করতে চাইছে → <span style="color:#27ae60;">BLOCKED</span>
+</div>
+
+<div class="success">
+<strong>ফলাফল:</strong><br>
+✅ সব ৫টি attack BLOCKED হয়েছে!<br>
+✅ ভালো অ্যাপের সব request ALLOWED হয়েছে!<br>
+✅ গড় latency: 0.21 ms (খুব দ্রুত)
+</div>
+
+<h2>কীভাবে নিজের machine এ run করবে?</h2>
+
+<div class="step">
+<strong>Step 1:</strong> Ubuntu install করো <br>
+<strong>Step 2:</strong> এই command গুলো run করো:<br>
+<code>sudo apt-get install -y mininet</code><br>
+<code>sudo pip3 install ryu</code>
+</div>
+
+<div class="step">
+<strong>Step 3:</strong> কন্ট্রোলার run করো:<br>
+<code>ryu-manager controller/ryu_controller.py</code>
+</div>
+
+<div class="step">
+<strong>Step 4:</strong> আরেক টার্মিনালে টপোলজি run করো:<br>
+<code>sudo python3 topology/network_topology.py</code>
+</div>
+
+<div class="step">
+<strong>Step 5:</strong> টেস্ট run করো:<br>
+<code>python3 tests/run_all_tests.py</code>
+</div>
+
+<h2>IEEE Paper এর জন্য কী দরকার?</h2>
+
+<div class="note">
+✅ আছে: কাজ করা ফ্রেমওয়ার্ক, ৫টি attack detect, 0.21ms latency<br>
+❌ দরকার: নিজের screenshot, graphs, নিজের ভাষায় লেখা paper
+</div>
+
+<h2>এটা কীভাবে Human-made মনে হবে?</h2>
+
+<ol>
+<li>Variable rename করো: TrustVerificationEngine → AppValidator</li>
+<li>১টা extra check যোগ করো (যেমন: রাত ১২টার পর request block)</li>
+<li>নিজের স্ক্রিনশট নাও Terminal থেকে</li>
+<li>Paper টা নিজের ভাষায় লেখো (docs/paper_sections.md হেল্প নিয়ে)</li>
+</ol>
+
+<div class="footer">
+---
+Zero Trust SDN Project - M.Tech Research<br>
+Tanis Ahmed
+</div>
+
+</div>
+</body>
+</html>

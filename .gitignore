@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# VM / run artifacts
+*.log
+core
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Old packaging
+ZeroTrustSDN_Project.zip
+*.zip
